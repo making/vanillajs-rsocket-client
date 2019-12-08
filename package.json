@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "rsocket-websocket-client": "^0.0.18"
+  },
   "license": "Apache-2.0",
   "licenses": [
     {
