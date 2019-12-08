@@ -12,12 +12,13 @@ export default class App {
                 lifetime: 20000,
             }
         });
-        this.client.connect()
-            .subscribe({
-                onComplete: rsocket => this.rsocket = rsocket,
-                onError: error => alert(JSON.stringify(error)),
-                onSubscribe: cancel => this.cancel = cancel
-            });
+        (async () => {
+            try {
+                this.rsocket = await this.client.connect();
+            } catch (error) {
+                alert(JSON.stringify(error));
+            }
+        })();
     }
 
     greet() {

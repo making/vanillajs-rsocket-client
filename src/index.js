@@ -6,12 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const stream = document.getElementById('stream');
 
     const response = document.getElementById('response');
-    greet.addEventListener('click', () => {
-        app.greet()
-            .subscribe({
-                onComplete: res => response.innerText = res.data,
-                onError: error => alert(JSON.stringify(error))
-            });
+    greet.addEventListener('click', async () => {
+        try {
+            const res = await app.greet();
+            response.innerText = res.data;
+        } catch (error) {
+            alert(JSON.stringify(error));
+        }
     });
     let cancel = null;
     stream.addEventListener('click', () => {
