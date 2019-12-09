@@ -1,13 +1,17 @@
 import {RSocketClient} from "rsocket-core";
 import RSocketWebSocketClient from "rsocket-websocket-client";
 
+const routingMetadata = (route) => {
+    return String.fromCharCode(route.length) + route;
+};
+
 export default class App {
     constructor() {
         this.client = new RSocketClient({
             transport: new RSocketWebSocketClient({url: 'ws://localhost:7000/rsocket'}),
             setup: {
                 dataMimeType: 'application/json',
-                metadataMimeType: 'application/json',
+                metadataMimeType: 'message/x.rsocket.routing.v0',
                 keepAlive: 10000,
                 lifetime: 20000,
             }
@@ -27,7 +31,7 @@ export default class App {
         }
         return this.rsocket.requestResponse({
             data: 'Hello World!',
-            metadata: JSON.stringify({})
+            metadata: routingMetadata('greeting.hello')
         });
     }
 
@@ -37,7 +41,7 @@ export default class App {
         }
         return this.rsocket.requestStream({
             data: 'Trump',
-            metadata: JSON.stringify({})
+            metadata: routingMetadata('name')
         });
     }
 }
